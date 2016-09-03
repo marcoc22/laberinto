@@ -1,0 +1,26 @@
+/*body {
+  margin-left: 20px;
+  margin-top: 20px
+}*/
+.input{
+    width: 80px;
+}
+canvas {
+  border: 1px solid #333;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
+/* irrelevant styling */
+body { text-align: center; }
+body p { 
+  max-width: 400px; 
+  margin: 20px auto; 
+}
+#tallModal .modal-body p { margin-bottom: 900px;  }
