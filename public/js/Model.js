@@ -11,6 +11,8 @@ let solveManBtn = get('solveManBtn');//boton solucion manual
 let loadBtn = get('loadBtn');
 let saveBtn = get('saveBtn');
 let nickBtn = get('addNick');
+let serverSave = get('loadBtnServer');
+let recuBtnServer= get('recuBtnServer');
 let tool = new Tool();
 
 let     ctx,tileSize,

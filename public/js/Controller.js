@@ -152,6 +152,13 @@ saveBtn.addEventListener('click', function () {
     save();
 });
 
+serverSave.addEventListener('click', function () {
+    guardarServer();
+});
+
+recuBtnServer.addEventListener('click', function () {
+    recuperarServer();
+});
 function init() {
     let width=rowsInput.value;//*
     let height=colsInput.value;//*
@@ -220,8 +227,71 @@ save = () => {
     aux.push(maze);
     localStorage.setItem("user",JSON.stringify(aux));
     }
+
 load = () => {
     let obj = JSON.parse(localStorage.getItem("user"));
         maze=obj.pop();
     }
+	
+	
+	 function dirServer()
+  {
+	return 'http://127.0.0.1:1337';
+  }
+//var fetch = require('node-fetch');
+ function guardarServer(){  
 
+  fetch( dirServer() + '/guardarJuego?nick=' + document.getElementById('nick').value+ '&laberinto='+JSON.stringify(maze), {  
+    method: 'post', 
+	mode:'no-cors',
+	datatype:'html',
+    headers: {  
+      "Content-type": "text/html"  
+    }  
+  })
+  .then(function(response) {
+	return response.text().then(function(res) {
+		console.log("Juego guardado: "+res);
+		
+  });
+})
+  .catch(function(error) {  
+   console.log('Request failed', error);  
+  });
+  }
+
+  
+  
+  
+    function recuperarServer(){  
+
+ fetch('http://127.0.0.1:1337/recuperarJuego?nick=' + document.getElementById('nick').value, {  
+    method: 'get', 
+	mode:'no-cors',
+	datatype:'html',
+    headers: {  
+      "Content-type": "text/html"  
+    }  
+  })
+  .then(function(response) {
+     	
+	return response.json().then(function(json) {
+        
+		console.log("Este Laberinto Actualizado vino del server: ");	
+        
+		//console.log(json);
+        
+	
+      let  objParser=JSON.parse(json);
+        
+        //console.log(objParser);
+        
+        maze=objParser.pop();
+        
+   
+  });
+})
+  .catch(function(error) {  
+   console.log('Request failed', error);  
+  });
+  }
