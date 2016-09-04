@@ -73,6 +73,28 @@ processKeyUp = e => {
   }
 
 }
+
+processKeyNew = e => {
+
+  if (e.keyCode == 38) {//tecla arriba
+    point.dy = -2.5;
+  }
+
+  if (e.keyCode == 40) {//tecla abajo
+    point.dy = 2.5;
+
+  }
+
+  if (e.keyCode == 37) {//tecla izquierda
+    point.dx = -2.5;
+  }
+
+  if (e.keyCode == 39) {//tecla derecha
+    point.dx = 2.5;
+  }
+
+}
+
 bindView();
 enableButtons(step3Buttons,true);
 
@@ -142,8 +164,13 @@ rowsInput.addEventListener('change',function(){
     enableButtons(step3Buttons,true);
 });
 nickBtn.addEventListener('click',function(){
-    $("#step0").delay(10).hide(600);
+    if(nickInput.value!=""){
+        $("#step0").delay(10).hide(600);
     $("#step1").delay(10).show(600);
+    }else{
+        nickInput.title="Debe ingresar un nombre de usuario";
+    }
+    
 });
 loadBtn.addEventListener('click', function () {
     preLoad();
@@ -216,12 +243,11 @@ inGridRange = (x,y) => { return (x >= 0 && x < mazeWidth && y >= 0 && y < mazeHe
 
 save = () => {
     let aux = new Array();
-    maze.solving=true;
     aux.push(maze);
-    localStorage.setItem("user",JSON.stringify(aux));
+    localStorage.setItem(nickInput.value,JSON.stringify(aux));
     }
 load = () => {
-    let obj = JSON.parse(localStorage.getItem("user"));
+    let obj = JSON.parse(localStorage.getItem(nickInput.value));
         maze=obj.pop();
     }
 

@@ -23,7 +23,8 @@ let     ctx,tileSize,
         // eventos
         onMazeCompleted = new Event('onMazeCompleted'),
         onMazeManualCompleted=new Event("onMazeManualCompleted"),
-        bindView,enableButtons,changeMazeSize,processKey,processKeyUp,resetBacktrack,gridAt,inGridRange,save,load;
+        bindView,enableButtons,changeMazeSize,processKey,processKeyUp,resetBacktrack,gridAt,inGridRange,save,load,
+        processKeyNew;
 
 const low = chroma('#6D3FA9');
 const mid = chroma('#BFDE42');

@@ -63,7 +63,7 @@ function quickCarveAux2(direction,nextPoint,point){ //Ya esta listo
 function update() {
     maze.activeCell = null;
     (maze.backTrack.length && !maze.mazeCreated)?activeCellAux():false;
-    maze.shouldSolve?solverMice():false;
+    (maze.shouldSolve ||  maze.shouldManual)?solverMice():false;
     draw();
     updateFrame = raf(update.bind(this, true));
 }
@@ -74,13 +74,54 @@ function activeCellAux(){
 }
 
 function solverMice(){
-   maze.mice.map(mouse => randomMemoryWalk(mouse)); 
+   (maze.shouldSolve)?maze.mice.map(mouse => randomMemoryWalk(mouse)):maze.mice.map(mouse => manualMemoryWalk(mouse));
 }
 
 
 
 function  randomMemoryWalk(mouse) {
  (!mouse.solved)?ramdomMemoryWalkAux(mouse):window.dispatchEvent(onMazeCompleted); 
+}
+function  manualMemoryWalk(mouse) {
+ (!mouse.solved)?manualMemoryWalkAux(mouse):window.dispatchEvent(onMazeCompleted); 
+}
+function manualMemoryWalkAux(mouse){ //FALTA MODULARLO MUCHO MÁS
+  let nextPos;
+     
+if(mouse.pos.x === maze.exitCell.x && mouse.pos.y === maze.exitCell.y){
+     mouse.solved = true;
+    return; 
+}
+        let currentCell = gridAt(mouse.pos.x, mouse.pos.y);
+        let possibleDirections = Array.of( currentCell , { key: 'N', value: !!( currentCell & Walls.N ) }, { key: 'S',value: !!(currentCell & Walls.S) }, { key: 'E', value: !!(currentCell & Walls.E) }, { key: 'W', value: !!(currentCell & Walls.W) }).filter(d => d.value);
+        
+        let surrounding = [];
+        possibleDirections.map( d => possibleDirectionsAux(d,mouse,surrounding) );
+          
+    
+        surrounding.sort( (a , b) => a.visited - b.visited);
+
+        let nextDirection = surrounding[0];
+        //nextPos = new Point(mouse.pos.x + nextDirection.x, mouse.pos.y + nextDirection.y);
+        nextPos = new Point(mouse.pos.x + point.dx, mouse.pos.y + point.dy,0,0);
+        let count = 0;
+       
+     
+        while (count < surrounding.length && (!inGridRange(nextPos.x, nextPos.y))) {
+            nextDirection = surrounding[count];
+            nextPos = new Point(mouse.pos.x + nextDirection.x, mouse.pos.y + nextDirection.y);
+            count++;
+            index = (index + count) % choices.length;
+        } //Hay que ver como se remplazar
+
+         historyObject = {
+            direction: nextDirection,
+            pos: mouse.pos,
+            key: createHistoryKey(nextPos)
+        };
+     
+        mouse.previousDirection = mouse.direction; mouse.direction = nextDirection; mouse.history.push(historyObject); mouse.pos = nextPos;
+        maze.grid[mouse.pos.y][mouse.pos.x] |= Walls.VISITED;   
 }
 
 function ramdomMemoryWalkAux(mouse){ //FALTA MODULARLO MUCHO MÁS
@@ -194,7 +235,7 @@ function draw() {  //Esta listo
     (maze.mazeCreated && maze.shouldSolve && !maze.showDepths)?drawMice(ctx):false;
     maze.showDepths?showDepthsAux():false;
     maze.showMaze?showMazeAux(ctx):false;
-    (maze.mazeCreated && maze.shouldManual && !maze.showDepths)?mazeManual(ctx):false;
+    //(maze.mazeCreated && maze.shouldManual && !maze.showDepths)?mazeManual(ctx):false;
 }
 
 
