@@ -20,7 +20,7 @@
                 margin-bottom: 1em;
             }
             .login-block .login-buttons {
-              padding-top: 0px;  
+                padding-top: 0px;  
             }
             .modal-body {
                 max-height: 800px;
@@ -35,12 +35,7 @@
         <script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
         <script src="js/chroma.min.js"></script>
 
-        <script type="text/javascript">// when .modal-wide opened, set content-body height based on browser height; 200 is appx height of modal padding, modal title and button bar
-
-            $(".modal-wide").on("show.bs.modal", function () {
-                var height = $(window).height() - 200;
-                $(this).find(".modal-body").css("max-height", height);
-            });</script>
+        
     </head>
     <body>
 
@@ -50,11 +45,7 @@
             <div class="wrapper clearfix">
                 <div class="col1of2">
                     <div class="futurico-content">
-
-                        <h1 class="sitename">
-                            Laberinto
-                            <a data-toggle="modal" href="#tallModal" >dsdsds</a>
-                        </h1>
+<img src="img/laberinto.png" >
 
                     </div>
                 </div>
@@ -62,25 +53,12 @@
             </div>
             <div class="content">
                 <div class="wrapper clearfix">
-                    <div id="tallModal" class="modal modal-wide fade">
-                        <div class="modal-dialog" >
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h4 class="modal-title">Has ganado!</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <img src="img/win.gif">
-                                </div>
-
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
+                    
                     <div class="col1of4">
                         <div class="mbl">
                             <div class="text-rounded light  center-text">
                                 <h1>Menú</h1>
-                                
+
                             </div>
                         </div>
                         <!--Inicio div solicitar usuario-->
@@ -103,7 +81,7 @@
                                         <h3>Modo de Juego</h3>
                                         <input type="radio" name="playMode" id="radioServer" checked>Remoto
                                         <input type="radio" name="playMode" id="radioLocal" style="margin-left: 20px;">Local
-                                        
+
                                     </div>
                                 </div>
 
@@ -149,8 +127,8 @@
                                     </div>
                                 </div>
                             </div>
-                                <div class="login-buttons clearfix"></div>
-                            
+                            <div class="login-buttons clearfix"></div>
+
 
                         </div>
                         <!--Fin div solicitar modo juego-->
@@ -160,31 +138,40 @@
                                 <div class="login-ear"></div>
                                 <h2 class="mbl"></h2>
                                 <div class="mbm">
-                                        <div id="playAgain" style="display: none">
-                                            <p>Has ganado!</p>
-                                            <img src="img/win.gif" width="80" height="80">
-                                        </div>
-                                         <div id="loadingSolution" style="display: none">
-                                            <img src="img/loading.gif" width="80" height="80">
-                                         </div>
-                                   
-                                            
+                                    <div id="playAgain" style="display: none">
+                                        <p>Has ganado!</p>
+                                        <img src="img/win.gif" width="80" height="80">
+                                    </div>
+                                    <div id="loadingSolution" style="display: none">
+                                        <p>Esperando solución...</p>
+                                        <img src="img/loading.gif" width="80" height="80">
+                                    </div>
+
+
                                 </div>
-                                    <h2 id="time"></h2>
+                                <h2 id="time"></h2>
+                                <div class="mbm" id="divAgainBtn" style="display: none;">
+                                    <div class="text-rounded light">
+                                        <input class="button positive" type="button" id="againBtn"  value="Volver a jugar">
+                                    </div>
                                 </div>
-                                <div class="login-buttons clearfix"></div>
+                               
+                                
+                            </div>
+
+                            <div class="login-buttons clearfix"></div>
 
                         </div>
                         <!--Fin div jugando-->
                         <!--Inicio div solicitar modo juego-->
-                        <div class="mbl" id="step3">
+                        <div class="mbl" id="step3" style="display: none;">
                             <div class="login-block">
                                 <div class="login-ear"></div>
                                 <h2 class="mbl"> Datos del juego</h2>
                                 <div class="mbm">
                                     <div class="text-rounded light">
                                         <input class="button positive" id="saveBtn" type="button" value="Guardar Partida">
-								   </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -198,66 +185,66 @@
 
                                     <div class="last-col">
                                         <div class="tabbox-content">
-                                         
 
-                                            
+
+
                                             <img id="face" src="img/face.png" hidden>
                                             <canvas id="maze" class="media-middle"></canvas>
 
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--<div class="clearfix"> para jugar desde movil
+    
+                                <div class="col1of6">
+                                    <div class="crossbar">
+                                        <a class="to-top" href="#" tabindex="6">
+                                            <div class="arrow"></div>
+                                        </a>
+                                        <a class="to-right" href="#" tabindex="7">
+                                            <div class="arrow"></div>
+                                        </a>
+                                        <a class="to-bottom" href="#" tabindex="8">
+                                            <div class="arrow"></div>
+                                        </a>
+                                        <a class="to-left" href="#" tabindex="9">
+                                            <div class="arrow"></div>
+                                        </a>
                                     </div>
                                 </div>
-
-                            </div>
+                            </div>-->
                         </div>
-                        <!--<div class="clearfix"> para jugar desde movil
-
-                            <div class="col1of6">
-                                <div class="crossbar">
-                                    <a class="to-top" href="#" tabindex="6">
-                                        <div class="arrow"></div>
-                                    </a>
-                                    <a class="to-right" href="#" tabindex="7">
-                                        <div class="arrow"></div>
-                                    </a>
-                                    <a class="to-bottom" href="#" tabindex="8">
-                                        <div class="arrow"></div>
-                                    </a>
-                                    <a class="to-left" href="#" tabindex="9">
-                                        <div class="arrow"></div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
             </div>
-        </div>
 
-        <script src="js/Tool.js"></script>
-        <script src="js/Timer.js"></script>
-        
-        <script src="js/Wall.js"></script>
-        <script src="js/Maze.js"></script>
-        <script src="js/Mouse.js"></script>
-        <script src="js/Point.js"></script>
-        <script src="js/Model.js"></script>
-        <script src="js/Solve.js"></script>
+            <script src="js/Tool.js"></script>
+            <script src="js/Timer.js"></script>
 
-        <script src="js/Controller.js"></script>
-        <script src="js/Worker.js"></script>
+            <script src="js/Wall.js"></script>
+            <script src="js/Maze.js"></script>
+            <script src="js/Mouse.js"></script>
+            <script src="js/Point.js"></script>
+            <script src="js/Model.js"></script>
+            <script src="js/Solve.js"></script>
 
-        <script src="javascripts/vendor/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-        <script src="javascripts/SCF.ui.js" type="text/javascript"></script>
-        <script src="javascripts/vendor/chosen.jquery.js" type="text/javascript"></script>
-        <script src="javascripts/vendor/jquery.placeholder.js" type="text/javascript"></script>
-        <script src="javascripts/SCF.ui/appreciate.js" type="text/javascript"></script>
-        <script src="javascripts/SCF.ui/commutator.js" type="text/javascript"></script>
-        <script src="javascripts/SCF.ui/scrollbox.js" type="text/javascript"></script>
-        <script src="javascripts/SCF.ui/tabbox.js" type="text/javascript"></script>
-        <script src="javascripts/SCF.ui/starbar.js" type="text/javascript"></script>
-        <script src="javascripts/SCF.ui/radio.js" type="text/javascript"></script>
+            <script src="js/Controller.js"></script>
+            <script src="js/Worker.js"></script>
 
-        <script src="js/Main.js"></script>
+            <script src="javascripts/vendor/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+            <script src="javascripts/SCF.ui.js" type="text/javascript"></script>
+            <script src="javascripts/vendor/chosen.jquery.js" type="text/javascript"></script>
+            <script src="javascripts/vendor/jquery.placeholder.js" type="text/javascript"></script>
+            <script src="javascripts/SCF.ui/appreciate.js" type="text/javascript"></script>
+            <script src="javascripts/SCF.ui/commutator.js" type="text/javascript"></script>
+            <script src="javascripts/SCF.ui/scrollbox.js" type="text/javascript"></script>
+            <script src="javascripts/SCF.ui/tabbox.js" type="text/javascript"></script>
+            <script src="javascripts/SCF.ui/starbar.js" type="text/javascript"></script>
+            <script src="javascripts/SCF.ui/radio.js" type="text/javascript"></script>
+
+            <script src="js/Main.js"></script>
 
     </body>
 </html>
