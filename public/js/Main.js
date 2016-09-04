@@ -15,6 +15,7 @@ window.addEventListener('onMazeCompleted', e => {
     fromEvent(e)
     .then(_ => $("#loadingSolution").delay(10).hide(600))
     .then(_ => $("#playAgain").delay(10).show(600))
+    .then(_ => $("#divAgainBtn").show())
     .catch(logError)
     }
     //document.location="#tallModal";
@@ -24,6 +25,7 @@ window.addEventListener('onMazeManualCompleted', e => {
     fromEvent(e)
     .then(_ => $("#loadingSolution").delay(10).hide(600))
     .then(_ => $("#playAgain").delay(10).show(600))
+    .then(_ => $("#divAgainBtn").show())
     .catch(logError)
     }
 );
@@ -74,6 +76,7 @@ goBtn.addEventListener('click', e => {
     .then(_ =>  maze.grid[0][0] |= Walls.ENTRY)
     .then(_ => $("#step1").delay(10).hide(600))
     .then(_ => $("#step2").delay(10).show(600))
+    .then(_ => $("#step3").delay(10).show(600))
     .catch(logError)
     }
 );
@@ -107,6 +110,16 @@ loadBtn.addEventListener('click', e => {
 saveBtn.addEventListener('click', e => {
      fromEvent(e)
     .then(preSave())
+    .catch(logError)
+    }
+);
+againBtn.addEventListener('click',  e => {
+    fromEvent(e)
+    .then(rowsColsAction())
+    .then(_ => $("#playing").delay(10).hide(600))
+    .then(_ => $("#step3").delay(10).hide(600))
+    .then(_ => $("#step0").delay(10).show(600))
+    .then(_ => nickInput.value="")
     .catch(logError)
     }
 );
