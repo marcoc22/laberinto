@@ -117,9 +117,14 @@ function nickBtnAction(){
     nickInput.title="Debe digitar un usuario";
   }
 }
-function preLoad(){
+function preLoadLocal(){
     load();
-    quickCarve(maze.backTrack[0]);
+    reinitialize();
+
+}
+
+function reinitialize(){
+  quickCarve(maze.backTrack[0]);
 
     //grid[0][0] |= Walls.ENTRY;
     let width=maze.width;//*
@@ -135,7 +140,6 @@ function preLoad(){
     canvas.width = width * size;
     canvas.height = height * size;
     update();
-
 }
 
 function resetBacktrack(){ 
@@ -160,69 +164,84 @@ function gridAt(x,y,value) {
 
 function inGridRange(x,y) { return (x >= 0 && x < mazeWidth && y >= 0 && y < mazeHeight) }
 
-function save(){
+function save() {
     let aux = new Array();
     maze.solving=true;
     aux.push(maze);
     localStorage.setItem("user",JSON.stringify(aux));
-}
-
-function load(){
-    let obj = JSON.parse(localStorage.getItem("user"));
-    maze=obj.pop();
-}
-	
-function dirServer(){ return 'http://127.0.0.1:1337'; }
-//var fetch = require('node-fetch');
-function guardarServer(){  
-  fetch( dirServer() + '/guardarJuego?nick=' + document.getElementById('nick').value+ '&laberinto='+JSON.stringify(maze), {  
-    method: 'post', 
-    mode:'no-cors',
-	  datatype:'html',
-    headers: {  
-      "Content-type": "text/html"  
-      }  
     }
-    ).then(function(response) {
-	     return response.text().then(function(res) {
-		   console.log("Juego guardado: "+res);
-		    });
-      }
-    ).catch(function(error) {  
-        console.log('Request failed', error);  
-        });
+function load() {
+    let obj = JSON.parse(localStorage.getItem("user"));
+        maze=obj.pop();
+    }
+  
+  
+   function dirServer()
+  {
+  return 'http://127.0.0.1:1337';
   }
+//var fetch = require('node-fetch');
+ function guardarServer(){  
+  let user = document.getElementById('nick').value;
+    let jsonMaze=JSON.stringify(maze);
+    let dir=dirServer() + '/guardarJuego';
 
-function recuperarServer(){  
 
+     /*let aux = new Array();
+    //maze.solving=true;
+    aux.push(maze);
+    let jsonMaze=JSON.stringify(aux);*/
+    //let data = new FormData();
+    //data.append( "json", JSON.stringify( maze) );
+   console.log(jsonMaze);
+   console.log("fin de linea");
+   console.log(dir);
+
+
+
+
+  fetch( dir, {  
+    method: 'POST', 
+    datatype:'json',
+    headers: {  
+      "Content-type": "application/x-www-form-urlencoded"  
+      } ,
+    body: "nick=" + user+"&laberinto="+jsonMaze
+      })
+  .then(function(response) {
+  return response.text().then(function(res) {
+    console.log("Juego guardado: "+res);
+    
+  });
+})
+  .catch(function(error) {  
+   console.log('Request failed', error);  
+  });
+}
+function recuperarServer(){ 
+    
+  
  fetch('http://127.0.0.1:1337/recuperarJuego?nick=' + document.getElementById('nick').value, {  
     method: 'get', 
-    mode:'no-cors',
-	  datatype:'html',
+  mode:'no-cors',
+  datatype:'html',
     headers: {  
       "Content-type": "text/html"  
     }  
-   })
+  })
   .then(function(response) {
-     	
-	   return response.json().then(function(json) {
-        
-		console.log("Este Laberinto Actualizado vino del server: ");	
-        
-		//console.log(json);
-        
-	
-      let  objParser=JSON.parse(json);
-        
-        //console.log(objParser);
-        
-        maze=objParser.pop();
-        
-   
+  return response.json().then(function(json) {
+    //console.log("Este Laberinto Actulizado vino del server: "); 
+    
+  //console.log(JSON.parse(json));
+  //console.log(json);
+
+
+ maze = JSON.parse(json);
+    reinitialize();
   });
 })
   .catch(function(error) {  
    console.log('Request failed', error);  
   });
   }
-
