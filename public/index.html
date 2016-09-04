@@ -22,6 +22,9 @@
             .login-block .login-buttons {
               padding-top: 0px;  
             }
+            .modal-body {
+                max-height: 800px;
+            }
 
         </style>
         <!-- jQuery -->
@@ -60,7 +63,7 @@
             <div class="content">
                 <div class="wrapper clearfix">
                     <div id="tallModal" class="modal modal-wide fade">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog" >
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -98,8 +101,8 @@
                                     </div>
                                     <div class="center">
                                         <h3>Modo de Juego</h3>
-                                        <input type="radio" name="playMode" checked>Servidor
-                                        <input type="radio" name="playMode" style="margin-left: 20px;">Local
+                                        <input type="radio" name="playMode" id="radioServer" checked>Remoto
+                                        <input type="radio" name="playMode" id="radioLocal" style="margin-left: 20px;">Local
                                         
                                     </div>
                                 </div>
@@ -144,25 +147,43 @@
                                         <input class="button positive" id="solveRunBtn" type="button" data-toggle="modal" value="Automático">
                                         <input class="button positive" id="solveManBtn" type="button" value="Manual">
                                     </div>
-                                    <h2 id="time"></h2>
                                 </div>
-                                <div class="login-buttons clearfix"></div>
                             </div>
+                                <div class="login-buttons clearfix"></div>
+                            
 
                         </div>
                         <!--Fin div solicitar modo juego-->
+                        <!--Inicio div jugando-->
+                        <div class="mbl" id="playing" style="display:none;">
+                            <div class="login-block">
+                                <div class="login-ear"></div>
+                                <h2 class="mbl"></h2>
+                                <div class="mbm">
+                                        <div id="playAgain" style="display: none">
+                                            <p>Has ganado!</p>
+                                            <img src="img/win.gif" width="80" height="80">
+                                        </div>
+                                         <div id="loadingSolution" style="display: none">
+                                            <img src="img/loading.gif" width="80" height="80">
+                                         </div>
+                                   
+                                            
+                                </div>
+                                    <h2 id="time"></h2>
+                                </div>
+                                <div class="login-buttons clearfix"></div>
+
+                        </div>
+                        <!--Fin div jugando-->
                         <!--Inicio div solicitar modo juego-->
                         <div class="mbl" id="step3">
                             <div class="login-block">
                                 <div class="login-ear"></div>
-                                <h2 class="mbl">4. Datos del juego</h2>
+                                <h2 class="mbl"> Datos del juego</h2>
                                 <div class="mbm">
                                     <div class="text-rounded light">
                                         <input class="button positive" id="saveBtn" type="button" value="Guardar Partida">
-                                        
-										<input class="button positive" id="loadBtnServer" type="button" value="Guardar server">
-										<input class="button positive" id="recuBtnServer" type="button" value="recupera server">
-                                    
 								   </div>
                                 </div>
                             </div>
@@ -177,11 +198,12 @@
 
                                     <div class="last-col">
                                         <div class="tabbox-content">
-                                            <p id="playAgain"> Esperando Solucion...</p>
+                                         
+
+                                            
                                             <img id="face" src="img/face.png" hidden>
                                             <canvas id="maze" class="media-middle"></canvas>
-                                            
-                                        </div>
+
                                     </div>
                                 </div>
 

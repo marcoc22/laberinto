@@ -5,14 +5,13 @@ let nickInput = get('nick');
 let rowsInput = get('rows');
 let colsInput = get('cols');
 let clockInput = get("time");
+let radioLocalInput = get("radioLocal");
 let goBtn = get('goBtn');
 let solveRunBtn = get('solveRunBtn');//boton de solucion automatica
 let solveManBtn = get('solveManBtn');//boton solucion manual
 let loadBtn = get('loadBtn');
 let saveBtn = get('saveBtn');
 let nickBtn = get('addNick');
-let serverSave = get('loadBtnServer');
-let recuBtnServer= get('recuBtnServer');
 let tool = new Tool();
 
 let     ctx,tileSize,
