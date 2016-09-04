@@ -120,8 +120,10 @@ function nickBtnAction(){
 function preLoadLocal(){
     load();
     reinitialize();
-
 }
+
+function preLoad(){ (radioLocal.checked)? preLoadLocal() : recuperarServer() }
+function preSave(){ (radioLocal.checked)? save() : guardarServer() }
 
 function reinitialize(){
   quickCarve(maze.backTrack[0]);

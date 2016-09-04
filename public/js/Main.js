@@ -13,7 +13,8 @@ init();
 update();*/
 window.addEventListener('onMazeCompleted', e => {
     fromEvent(e)
-    .then(_ => get("playAgain").innerHTML="has ganado automatico")
+    .then(_ => $("#loadingSolution").delay(10).hide(600))
+    .then(_ => $("#playAgain").delay(10).show(600))
     .catch(logError)
     }
     //document.location="#tallModal";
@@ -21,7 +22,8 @@ window.addEventListener('onMazeCompleted', e => {
 
 window.addEventListener('onMazeManualCompleted', e => {
     fromEvent(e)
-    .then(_ => get("playAgain").innerHTML="has ganado manual")
+    .then(_ => $("#loadingSolution").delay(10).hide(600))
+    .then(_ => $("#playAgain").delay(10).show(600))
     .catch(logError)
     }
 );
@@ -34,6 +36,10 @@ solveRunBtn.addEventListener('click', e => {
     //.then(_ => myWorker.onmessage)
     .then(enableButtons(step2Buttons,true))
     .then(enableButtons(step3Buttons,true))
+    .then(_ => $("#loadingSolution").delay(10).show(600))
+    .then(_ => $("#playAgain").delay(10).hide(600))
+    .then(_ => $("#playing").delay(10).show(600))
+    .then(_ => $("#step2").delay(10).hide(600))
     .catch(logError)
     }
 );
@@ -44,6 +50,10 @@ solveManBtn.addEventListener('click', e => {
     .then(_ => maze.shouldManual=true)
     .then(enableButtons(step2Buttons,true))
     .then(enableButtons(step3Buttons,true))
+    .then(_ => $("#playing").delay(10).show(600))
+    .then(_ => $("#step2").delay(10).hide(600))
+    .then(_ => $("#loadingSolution").delay(10).show(600))
+    .then(_ => $("#playAgain").delay(10).hide(600))
     .then(_ => canvas.setAttribute("autofocus","true"))
     .then(_ => window.onkeydown=processKey)
     .then(_ =>  window.onkeyup=processKeyUp)
@@ -90,27 +100,14 @@ nickBtn.addEventListener('click', e => {
 );
 loadBtn.addEventListener('click', e => {
      fromEvent(e)
-    .then(preLoadLocal())
+    .then(preLoad())
     .catch(logError)
     }
 );
 saveBtn.addEventListener('click', e => {
      fromEvent(e)
-    .then(save())
+    .then(preSave())
     .catch(logError)
     }
 );
 
-serverSave.addEventListener('click', e => {
-     fromEvent(e)
-    .then(guardarServer())
-    .catch(logError)
-    }
-);
-
-recuBtnServer.addEventListener('click', e => {
-     fromEvent(e)
-    .then(recuperarServer())
-    .catch(logError)
-    }
-);
