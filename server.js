@@ -2,7 +2,13 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());     // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+//app.use(express.json());       // to support JSON-encoded bodies
+//app.use(express.urlencoded()); // to support URL-encoded bodies
 
 //-------Mongo---------------
   
@@ -66,8 +72,9 @@ console.log("echo");
 
   
   app.post('/guardarJuego', function(req, res){
-		let r = req.query.laberinto;
-		let usr = req.query.nick;
+  	let usr = req.body.nick;
+	let r = req.body.laberinto;
+		
 		console.log('Guardando juego para Jugador: ' + usr + ' Lab: ' + r)
 
 		User.update({nick:usr},{$set:{laberinto:r}},{upsert:true},function(err,doc){
@@ -113,14 +120,3 @@ function inicializaSchema(){
 			});*/
 	//----------------------------------------------
 }
-
-
-
-
-
-
-
-
-
-
-

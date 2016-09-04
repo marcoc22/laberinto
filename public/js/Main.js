@@ -90,7 +90,7 @@ nickBtn.addEventListener('click', e => {
 );
 loadBtn.addEventListener('click', e => {
      fromEvent(e)
-    .then(preLoad())
+    .then(preLoadLocal())
     .catch(logError)
     }
 );
