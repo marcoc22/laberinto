@@ -1,16 +1,18 @@
 
 let get = element => document.getElementById(element);//funcion para obtener un elemento del dom mediante id
-
 let canvas = get('maze');
 let nickInput = get('nick');
 let rowsInput = get('rows');
 let colsInput = get('cols');
+let clockInput = get("time");
 let goBtn = get('goBtn');
 let solveRunBtn = get('solveRunBtn');//boton de solucion automatica
 let solveManBtn = get('solveManBtn');//boton solucion manual
 let loadBtn = get('loadBtn');
 let saveBtn = get('saveBtn');
 let nickBtn = get('addNick');
+let serverSave = get('loadBtnServer');
+let recuBtnServer= get('recuBtnServer');
 let tool = new Tool();
 
 let     ctx,tileSize,
@@ -23,7 +25,7 @@ let     ctx,tileSize,
         // eventos
         onMazeCompleted = new Event('onMazeCompleted'),
         onMazeManualCompleted=new Event("onMazeManualCompleted"),
-        bindView,enableButtons,changeMazeSize,processKey,processKeyUp,resetBacktrack,gridAt,inGridRange,save,load;
+        changeMazeSize;
 
 const low = chroma('#6D3FA9');
 const mid = chroma('#BFDE42');
@@ -31,6 +33,7 @@ const high = chroma('#5C59CD');
 const cs = chroma.scale('Blues');
 const size = 30;
 const colors = chroma.interpolate.bezier([low, mid, high]);
+const logError = e => console.log(e);
 
 //**********Clases
 
@@ -44,4 +47,6 @@ let OppositeSeekDirections = { N:'S' ,S:'N' , E:'W' ,W:'E' };
 let SeekLookup = {'N': SeekDirections[0],'S': SeekDirections[1],'E': SeekDirections[2],'W': SeekDirections[3]};
 
 let point = new Point();
+let timer = new Timer(0,0,0);
+let myWorker = new Worker("js/Worker.js");
 let maze;

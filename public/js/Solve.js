@@ -6,10 +6,10 @@ function carve(point) {
     let direction;
     direction = point.directions.pop();
     maze.grid[point.y][point.x] |= Walls.VISITED;
-    direction?carveDirectionAux(point):carveDirectionAux2(point);
+    direction?carveDirectionAux(point,direction):carveDirectionAux2(point);
 }
 
-function carveDirectionAux(point){
+function carveDirectionAux(point,direction){
     nextPoint = new Point(point.x + direction.x, point.y + direction.y,0,0);
     (inGridRange(nextPoint.x, nextPoint.y) && gridAt(nextPoint.x, nextPoint.y) === 0)?ingridRange(nexPoint,point):false;
 }
