@@ -1,122 +1,48 @@
-//cargamos el package express y creamos nuestra app
-var express = require('express');
-var app = express();
-var path = require('path');
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());     // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-})); 
-//app.use(express.json());       // to support JSON-encoded bodies
-//app.use(express.urlencoded()); // to support URL-encoded bodies
+//--------------------SERVIDOR--------------------------------------------
+let express = require('express');
+let app = express();
+let path = require('path');
+let bodyParser = require('body-parser');
+app.use(bodyParser.json());    
+app.use(bodyParser.urlencoded({extended: true})); 
 
-//-------Mongo---------------
-  
-var mongoose = require('mongoose');
-var db = mongoose.createConnection( 'mongodb://localhost:27017/primer_base');
-var userSchema ;
-var User;
-var PrimerUsuario; 
-var jugador = 'P1';
-//-------------
-
-var N;
-var entrada;
-var salida;
-
-
-//enviamos nuestro archivo index.html al usuario como página de inicio
-
-app.get('/', function(req, res){
-	if(!userSchema)
-		inicializaSchema();// ---------Mongo----------
-	app.use(express.static(path.join(__dirname, 'public')));
- res.sendFile(path.join(__dirname +'/../laberinto/public/index.html'));
-	console.log("Solicitud de Pagina atendida...");
- });
- 
-//iniciamos el servidor
+//-------------CONEXION CON MONGO------------------------------------------  
+let mongoose = require('mongoose');
+let db = mongoose.createConnection( 'mongodb://localhost:27017/milaberinto');
+let miSchema ;
+let gamer;
+let nuevo; 
+//---------INICIANDO SERVER------------------------------------------------
 app.listen(1337,'127.0.0.1');
-console.log('¡Server corriendo sobre el puerto 1337!');
-
-
-
-
-
- //-------------------Mongo---------------
- 
- app.get('/loggin', function(req, res){
-	  let r = req.query.nick;
-console.log("dentro de logging"+ r);
-//Se busca al jugador en la base
-User.find({nick:r},function(err,doc){
-		 if(doc.length==0){
-		
-			PrimerUsuario=new User({
-				nick : r,
-				pass : r,
-				laberinto: ''
-			});
-			PrimerUsuario.save(function(err, doc){
-				console.log(doc);
-			});
-			
-		 }
-		 else
-			console.log("echo"); //res.send("error "+r+" ya existe");
-		});
-jugador=r;		
-res.send(r);
-console.log("echo");
-});
-
-  
-  app.post('/guardarJuego', function(req, res){
-  	let usr = req.body.nick;
-	let r = req.body.laberinto;
-		
-		console.log('Guardando juego para Jugador: ' + usr + ' Lab: ' + r)
-
-		User.update({nick:usr},{$set:{laberinto:r}},{upsert:true},function(err,doc){
-				console.log(doc);
-			}); 
-	res.send("jugador guardado "+usr);
-});
-
-app.get('/recuperarJuego', function(req, res){
-	let r = req.query.nick;
-	console.log("Pidiendo Recuperar laberinto" + r);
-	User.find({nick:r},function(err,doc){
-		if(err) console.log("Ha ocurrido un error.... recuperarJuego");
-		res.json(doc[0].laberinto);
-		console.log(doc[0].laberinto);
-		
-	});
-});
-
-app.get('/eliminarJuego', function(req, res){
-		let r = req.query.nick;
-		User.remove({nick:r},function(err,doc){
-			console.log("eliminado desde mongo");
-			});
-			res.send("Eliminado");
-});
-
-function inicializaSchema(){
-	userSchema	= mongoose.Schema({
-		nick : { type : String, trim : true , unique : true },
-		pass : { type : String, trim : true, index : true },
-		laberinto: { type : String, trim : true },
-	});
-	User = db.model('users', userSchema);
-	//------------Hay que quitarlo-----------------
-	/*PrimerUsuario = new User({
-				nick : jugador,
-				pass : jugador,
-				laberinto: ''
-			});
-			PrimerUsuario.save(function(err, doc){
-				console.log(doc);
-			});*/
-	//----------------------------------------------
+console.log('          ********* SERVER CORRIENDO PORT: 1337 ********');
+//---------------------------Constructor Schema---------------------------
+function ConstructSchema(){
+	miSchema	= mongoose.Schema({nick : { type : String, trim : true , unique : true },
+								   laberinto: { type : String, trim : true },});
+	gamer = db.model('users', miSchema);
 }
+//--------------ENVIO DE LA PAGINA PRINCIPAL PARA SER CARGADA--------------
+app.get('/', (req, res)=>{
+						  !miSchema?ConstructSchema():false;
+						  app.use(express.static(path.join(__dirname, 'public')));
+						  res.sendFile(path.join(__dirname +'/../laberinto/public/index.html'));
+						  console.log("*** LA PAGINA DEL LABERINTO FUE  RECIBIDA ***");
+						 });
+
+  app.post('/guardarJuego', (req, res)=>{
+  	let gam = req.body.nick;
+	let que = req.body.laberinto;
+	console.log('JUEGO GUARDADO... JUGADOR:' + gam + ' Lab: ' + que)
+	gamer.update({nick:gam},{$set:{laberinto:que}},{upsert:true},(err,doc)=>{console.log(doc);}); 
+	res.send("SAVE GAMER "+gam);
+});
+
+app.get('/recuperarJuego', (req, res)=>{
+	let que = req.query.nick;
+	console.log("SOLICITANDO PARTIDA" + que);
+	gamer.find({nick:que},(err,doc)=>{
+		(err)? console.log("Ha ocurrido un error.... recuperarJuego"):false;
+		res.json(doc[0].laberinto);
+		console.log(doc[0].laberinto);});
+});
+
