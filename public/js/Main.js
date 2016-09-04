@@ -32,6 +32,7 @@ window.addEventListener('onMazeManualCompleted', e => {
 
 solveRunBtn.addEventListener('click', e => {
     fromEvent(e)
+    .then(_ => $("#step3").delay(10).show(600))
     .then(_ => maze.shouldSolve = true)
     .then(startClock())
     .then(startWork())
@@ -49,6 +50,7 @@ solveRunBtn.addEventListener('click', e => {
 solveManBtn.addEventListener('click', e => {
     fromEvent(e)
     .then(_ => point.x=8,point.y=4,point.dx=0,point.dy=0)
+    .then(_ => $("#step3").delay(10).show(600))
     .then(_ => maze.shouldManual=true)
     .then(enableButtons(step2Buttons,true))
     .then(enableButtons(step3Buttons,true))
@@ -76,7 +78,6 @@ goBtn.addEventListener('click', e => {
     .then(_ =>  maze.grid[0][0] |= Walls.ENTRY)
     .then(_ => $("#step1").delay(10).hide(600))
     .then(_ => $("#step2").delay(10).show(600))
-    .then(_ => $("#step3").delay(10).show(600))
     .catch(logError)
     }
 );
