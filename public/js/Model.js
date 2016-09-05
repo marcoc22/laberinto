@@ -15,6 +15,7 @@ let nickBtn = get('addNick');
 let againBtn = get('againBtn');
 let tool = new Tool();
 
+
 let     ctx,tileSize,
         mazeWidth,mazeHeight, 
         totalTiles,updateFrame,

@@ -9,25 +9,25 @@ function carve(point) {
     direction?carveDirectionAux(point,direction):carveDirectionAux2(point);
 }
 
-function carveDirectionAux(point,direction){
+let carveDirectionAux = (point,direction) => {
     nextPoint = new Point(point.x + direction.x, point.y + direction.y,0,0);
     (inGridRange(nextPoint.x, nextPoint.y) && gridAt(nextPoint.x, nextPoint.y) === 0)?ingridRange(nexPoint,point):false;
 }
 
-function ingridRange(nexPoint,point){
+let ingridRange = (nexPoint,point)  => {
     maze.grid[point.y][point.x] |= Walls[direction.key];
     maze.grid[nextPoint.y][nextPoint.x] |= OppositeWalls[direction.key];
     maze.backTrack.push(nextPoint);
 }
 
-function carveDirectionAux2(point){
+let carveDirectionAux2 = (point) => {
     maze.grid[point.y][point.x] ^= Walls.VISITED;
     (!maze.depths.hasOwnProperty(maze.backTrack.length))?maze.depths[maze.backTrack.length] = []:false;
         maze.depths[maze.backTrack.length].push(point);
    (maze.backTrack.length > maze.longestDistance)?carveDirectionAux2Branch1:maze.backTrack.pop();
 }
 
-function carveDirectionAux2Branch1(){
+let carveDirectionAux2Branch1 = ()  => {
     maze.longestDistance = maze.backTrack.length;
     (maze.exitCell)?grid[maze.exitCell.y][maze.exitCell.x] ^= Walls.EXIT:false;
     maze.exitCell = maze.backTrack.pop();
@@ -37,7 +37,7 @@ function carveDirectionAux2Branch1(){
 function quickCarve(point) {
     let nextPoint;
     maze.pathDistance++;
-    point.directions.map( direction => quickCarveAux(direction,nextPoint,point) );
+    point.directions.map( direction => quickCarveAux(direction,nextPoint,point) ); //No se pudo sacar
     if (maze.pathDistance > maze.longestDistance) { //NO TOCAR O REVISAR AL FINAL
         maze.longestDistance = maze.pathDistance;
     (maze.exitCell)?maze.grid[maze.exitCell.y][maze.exitCell.x] ^= Walls.EXIT:false;
@@ -49,16 +49,19 @@ function quickCarve(point) {
     maze.pathDistance--;
 }
 
-function quickCarveAux(direction,nextPoint,point) { //Ya esta listo
+
+let quickCarveAux = (direction,nextPoint,point) => { //Ya esta listo
  nextPoint = new Point(point.x + direction.x, point.y + direction.y);
  (inGridRange(nextPoint.x, nextPoint.y) && gridAt(nextPoint.x, nextPoint.y) === 0)?quickCarveAux2(direction,nextPoint,point):false;
 }
 
-function quickCarveAux2(direction,nextPoint,point){ //Ya esta listo
+let quickCarveAux2 = (direction,nextPoint,point) => { //Ya esta listo
   maze.grid[point.y][point.x] |= Walls[direction.key];
   maze.grid[nextPoint.y][nextPoint.x] |= OppositeWalls[direction.key];
   quickCarve(nextPoint);  
 }
+
+
 
 function update() {
     maze.activeCell = null;
@@ -68,7 +71,7 @@ function update() {
     updateFrame = raf(update.bind(this, true));
 }
 
-function activeCellAux(){
+ let activeCellAux = () => {
  maze.activeCell = maze.backTrack[maze.backTrack.length - 1];
  carve(maze.activeCell);  
 }
@@ -83,13 +86,11 @@ function  randomMemoryWalk(mouse) {
  (!mouse.solved)?ramdomMemoryWalkAux(mouse):window.dispatchEvent(onMazeCompleted); 
 }
 
-function ramdomMemoryWalkAux(mouse){ //FALTA MODULARLO MUCHO MÁS
+function ramdomMemoryWalkAux(mouse){ 
   let nextPos;
      
-if(mouse.pos.x === maze.exitCell.x && mouse.pos.y === maze.exitCell.y){
-     mouse.solved = true;
-    return; 
-}
+(mouse.pos.x === maze.exitCell.x && mouse.pos.y === maze.exitCell.y)?MouseSolvedTrue(mouse):undefined;
+    
         let currentCell = gridAt(mouse.pos.x, mouse.pos.y);
         let possibleDirections = Array.of( currentCell , { key: 'N', value: !!( currentCell & Walls.N ) }, { key: 'S',value: !!(currentCell & Walls.S) }, { key: 'E', value: !!(currentCell & Walls.E) }, { key: 'W', value: !!(currentCell & Walls.W) }).filter(d => d.value);
         
@@ -104,7 +105,7 @@ if(mouse.pos.x === maze.exitCell.x && mouse.pos.y === maze.exitCell.y){
         let count = 0;
        
      
-        while (count < surrounding.length && (!inGridRange(nextPos.x, nextPos.y))) {
+        while (count < surrounding.length && (!inGridRange(nextPos.x, nextPos.y))) { //FALTA 
             nextDirection = surrounding[count];
             nextPos = new Point(mouse.pos.x + nextDirection.x, mouse.pos.y + nextDirection.y);
             count++;
@@ -121,15 +122,19 @@ if(mouse.pos.x === maze.exitCell.x && mouse.pos.y === maze.exitCell.y){
         maze.grid[mouse.pos.y][mouse.pos.x] |= Walls.VISITED;   
 }
 
+let MouseSolvedTrue = (mouse) => {
+    mouse.solved = true;
+    return; 
+}
 
 function possibleDirectionsAux(d,mouse,surrounding){ //Ya estan 
     let p = SeekLookup[d.key];
     let n = new Point(mouse.pos.x + p.x, mouse.pos.y + p.y);
-    (inGridRange(n.x, n.y))?possibleDirectionsAux2(p,n,mouse,surrounding):false;
+    (inGridRange(n.x, n.y))?possibleDirectionsAux2(p,n,mouse,surrounding):undefined;
 }
 
 
-function possibleDirectionsAux2(p,n,mouse,surrounding){ //Ya esta listo
+let possibleDirectionsAux2 = (p,n,mouse,surrounding) => { //Ya esta listo
     p.visited = getMouseHistory(mouse, createHistoryKey(n)).length;
     surrounding.push(p);      
 }
@@ -139,19 +144,10 @@ function createHistoryKey(pos) {  //Ya esta listo
 }
 
 function getMouseHistory(mouse,key){  //Ya esta listo
-  return mouse.history.filter(h => h.key === key);
-}
-
-/*function randomDirection(exclusions) {  //Ya esta listo
-    let ds = SeekDirections.slice(0);
-    (exclusions)?randomDirectionAux(exclusions):false;
-    return tool.shuffle(ds)[0];
+  return mouse.history.filter( _ => _.key === key);
 }
 
 
-function randomDirectionAux(exclusions){   //Ya esta listo
- exclusions.map(exclusion => delete ds[exclusion]); //Cambiar a range
-}*/
 
 
 
@@ -198,19 +194,19 @@ function draw() {  //Esta listo
 }
 
 
-function showDepthsAux(){  //Esta listo
+let showDepthsAux = () => {  //Esta listo
     let keys = Object.keys(depths);
     keys.reduce( (a,b) => parseInt(a) - parseInt(b) );
     let colorStep = 1 / keys.length;
     keys.map( (key,i) => showDepthsAux2(key,i) );
 }
 
-function showDepthsAux2(key,i){ //Esta listo 
+let showDepthsAux2 = (key,i) => { //Esta listo 
    let cells = maze.depths[key];
    cells.map(cell => canvasChanges(cell,i));   
 }
 
-function canvasChanges(cell,i){ //Esta listo
+let canvasChanges = (cell,i) => { //Esta listo
     ctx.save();
     ctx.translate(cell.x * tileSize, cell.y * tileSize);
     ctx.beginPath();
@@ -225,44 +221,40 @@ function showMazeAux(){ //FALTA MODULARLO
         ctx.fillStyle = "#FFFFFF";//aqui se asigna el color blanco
         ctx.fillRect (0,0,tileSize*rowsInput.value,tileSize*colsInput.value);//a todo el fondo se le coloca el color blanco
         }
-        for (var y = 0; y < mazeHeight; y++) { //Cambiar con range para Matrices 
+        
+ 
+        for (var y = 0; y < mazeHeight; y++) { //Cambiar con range por Range normal
             
-            for (var x = 0; x < mazeWidth; x++) { //Cambiar con range para Matrices 
+            for (var x = 0; x < mazeWidth; x++) { //Cambiar con range por Range normal
                 let cell = gridAt(x, y);
                 
                 ctx.save();
                 ctx.translate(x * tileSize, y * tileSize);
                 ctx.beginPath();
                 ctx.strokeStyle = '#000000';
-                if (cell === 0) {
-                    drawEastWall(ctx);
-                    drawSouthWall(ctx);
-                    drawUnvisited(ctx);
-                } else {
-                    if (!(cell & Walls.S)) {
-                        drawSouthWall(ctx);
-                    }
-                    if (!(cell & Walls.E)) {
-                        drawEastWall(ctx);
-                    }
-                    if ((cell & Walls.ENTRY)) {
-                        drawEntrance(ctx);
-                    }
-                    if (cell & Walls.EXIT) {
-                        drawExit(ctx);
-                    }
-                }
-                if (maze.activeCell && x === maze.activeCell.x && y === maze.activeCell.y) {
-                    drawActive(ctx);
-                } else if ((cell & Walls.VISITED)) {
-                    //drawVisited(ctx);
-                }
-                
+                (cell === 0)?showMazeAuxBranch1(ctx,cell):showMazeAuxBranch2(cell,Walls,ctx); 
+                (maze.activeCell && x === maze.activeCell.x && y === maze.activeCell.y)?drawActive(ctx):undefined;
                 ctx.stroke();
                 ctx.restore();
             }
         }
     }
+
+
+    
+
+let showMazeAuxBranch1 = (ctx,cell) => {
+ drawEastWall(ctx);
+ drawSouthWall(ctx);
+ drawUnvisited(ctx);   
+}
+
+let showMazeAuxBranch2 = (cell,Walls,ctx) => {
+ (!(cell & Walls.S))?drawSouthWall(ctx):undefined;
+ (!(cell & Walls.E))?drawEastWall(ctx):undefined;
+ ((cell & Walls.ENTRY))?drawEntrance(ctx):undefined;
+ (cell & Walls.EXIT)?drawExit(ctx):undefined;
+}
 
 
 function mazeManual(ctx){//No tocar
@@ -279,23 +271,22 @@ function mazeManual(ctx){//No tocar
     }
 
 
-
-function drawEastWall(ctx) { //Ya esta listo 
+let drawEastWall = (ctx) => { //Ya esta listo 
     ctx.moveTo(tileSize, 0);
     ctx.lineTo(tileSize, tileSize);
 }
 
-function drawSouthWall(ctx) { //Ya esta listo
+let drawSouthWall = (ctx) => { //Ya esta listo
     ctx.moveTo(0, tileSize);
     ctx.lineTo(tileSize, tileSize);
 }
 
-function drawExit(ctx) { //Ya esta listo
+let drawExit  = (ctx) => { //Ya esta listo
     ctx.fillStyle = '#800000';
     ctx.fillRect(tileSize / 3, tileSize / 3 , tileSize /4, tileSize/4 );
 }
 
-function drawEntrance(ctx) { //Ya esta listo
+let drawEntrance = (ctx) => { //Ya esta listo
     ctx.fillStyle = '#FFFF00';
     ctx.fillRect(tileSize / 3, tileSize / 3, tileSize / 4, tileSize / 4);
 }
@@ -364,35 +355,5 @@ function drawMice(ctx) {
     );
 }
 
-/*
-function drawMice(ctx) { //Ya esta listo
- maze.mice.map(  (mouse) => drawMiceAux(ctx,mouse) ); 
- }
 
-function drawMiceAux(ctx,mouse){ //Ya esta listo
-mouse.history.map( h => changeCanvasMice(h,ctx,mouse) ); //Realiza los cambios en en el contexto del Canvas para dibujar el recorrido
-}
-
-function changeCanvasMice(h,ctx,mouse){ //Ya esta listo
-    (!mouse.solved)?drawMiceAux2(ctx,mouse,tileSize):undefined; //LLama a drawMiceAux2 en caso de que aun no haya encontrado la salida
-    ctx.save();
-    ctx.globalAlpha = 0.15;
-    ctx.translate(h.x * tileSize, h.y * tileSize);
-    ctx.fillStyle = mouse.color;
-    ctx.fillRect(0, 0, tileSize, tileSize);
-    ctx.restore();
-}
-
-function drawMiceAux2(ctx,mouse,tileSize){ //Ya esta listo
-ctx.save();
-ctx.fillStyle = mouse.color;
-ctx.strokeStyle = '#FFFF00';
-ctx.lineWidth = 2;
-ctx.beginPath();
-ctx.translate(mouse.pos.x * tileSize, mouse.pos.y * tileSize);
-ctx.rect(0, 0, tileSize, tileSize);
-ctx.fill();
-ctx.stroke();
-ctx.restore();  
-}*/
 

@@ -25,3 +25,28 @@ class Tool{
 	    	return array;
 	}
 }
+
+class PArray extends Array {
+
+static range(a,b){
+return Array.from( {length : b-a} , (_,k) => k+a ); 
+    }
+}
+
+
+class Matrix extends  Array{
+
+  constructor(n,m){
+  super();
+  this.n = n;
+  this.m = m;
+  this.init();
+  }
+  
+  init(){
+   PArray.range(0,this.n).forEach( (_,i) =>
+   this[i] = PArray(0 , this.m) 
+   );
+   
+    }
+}
