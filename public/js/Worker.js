@@ -5,6 +5,7 @@ let timer = {
 	seconds:0
 }
 function clock() {
+	
   timer.seconds++;
    if (timer.seconds >= 60){
       timer.seconds = 0;
@@ -19,7 +20,7 @@ function clock() {
 function addZero(s){ return (s < 10) ? ("0" + s) : s; }  
 
 onmessage = function(e) {
-  var workerResult = {
+  let workerResult = {
     msg : clock()
   } ;
   postMessage(workerResult);

@@ -38,12 +38,12 @@ solveRunBtn.addEventListener('click', e => {
     .then(_ => maze.shouldSolve = true)
     .then(_ => myWorker = null)
     .then(_ => myWorker = new Worker("js/Worker.js"))
-    .then(startWork)
+    
     .then(_ => myWorker.onmessage =  e =>  fromEvent(e) // Worker Message-Workflow
                                            .then(updateView) 
                                                  
          )
-    
+    .then(startWork)
     .then(enableButtons(step2Buttons,true))
     .then(enableButtons(step3Buttons,true))
     .then(_ => $("#loadingSolution").delay(10).show(600))
@@ -62,12 +62,12 @@ solveManBtn.addEventListener('click', e => {
     .then(_ => maze.shouldManual=true)
     .then(_ => myWorker = null)
     .then(_ => myWorker = new Worker("js/Worker.js"))
-    .then(startWork)
+    
     .then(_ => myWorker.onmessage =  e =>  fromEvent(e) // Worker Message-Workflow
                                            .then(updateView) 
                                                  
          )
-    
+    .then(startWork)
     .then(enableButtons(step2Buttons,true))
     .then(enableButtons(step3Buttons,true))
     .then(_ => $("#playing").delay(10).show(600))
