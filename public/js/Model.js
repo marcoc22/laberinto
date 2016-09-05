@@ -14,6 +14,7 @@ let saveBtn = get('saveBtn');
 let nickBtn = get('addNick');
 let againBtn = get('againBtn');
 let tool = new Tool();
+let imgFace = document.getElementById("face");
 
 
 let     ctx,tileSize,

@@ -136,12 +136,23 @@ function reinitialize(){
     mazeHeight = height;
     totalTiles = width * height;
     ctx = canvas.getContext('2d');
+
     if (!ctx) {
         throw (new Error('Error'));
     }
     canvas.width = width * size;
     canvas.height = height * size;
     update();
+    
+    if(maze.shouldManual){
+     $("#playing").delay(10).show(600);
+     $("#step0").delay(10).hide(600);
+     $("#loadingSolution").show();
+     $("#step3").show();    
+      window.onkeydown=processKey;
+      window.onkeyUp=processKeyUp;  
+    }
+   
 }
 
 function resetBacktrack(){ 

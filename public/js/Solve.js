@@ -1,5 +1,5 @@
 
-const imgFace = document.getElementById("face");
+
 
 function carve(point) {
     let nextPoint;
