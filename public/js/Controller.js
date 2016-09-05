@@ -1,27 +1,18 @@
 'use strict';
 
-
-function clock() {
-  timer.seconds++;
-   if (timer.seconds >= 60){
-      timer.seconds = 0;
-      timer.minutes++;
-    }            // Minutos
-    if (timer.minutes >= 60){
-        timer.minutes = 0;
-         timer.hour++;
-     }
-   return addZero(timer.hour)+":"+addZero(timer.minutes)+":"+addZero(timer.seconds);
-}
-function addZero(s){ (s < 10) ? ("0" + s) : s; }  
-function startClock(){ setInterval(() =>  clockInput.innerHTML = clock(), 1000) }
+function updateView (e) { clockInput.innerHTML = e.data.msg ;  }
 function postMsg(msg) {
           if (myWorker)
-           myWorker.postMessage({msg : clock()});
+           myWorker.postMessage({msg : msg});
 }
-function startWork(){
-             setInterval(() => postMsg('main'), 1000);
-          }
+function startWork(){ setInterval(() => postMsg(''), 1000); }
+function stopWorker(e){
+         if (myWorker){
+         myWorker.terminate();
+         myWorker=null;
+       }
+
+      }
 function fromEvent(e, f = x => x){ return Promise.resolve(f(e)); }
 
 function  initView(){

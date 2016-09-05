@@ -105,7 +105,7 @@ function ramdomMemoryWalkAux(mouse){
         let count = 0;
        
      
-        while (count < surrounding.length && (!inGridRange(nextPos.x, nextPos.y))) { //FALTA 
+        while (count < surrounding.length && (!inGridRange(nextPos.x, nextPos.y))) { 
             nextDirection = surrounding[count];
             nextPos = new Point(mouse.pos.x + nextDirection.x, mouse.pos.y + nextDirection.y);
             count++;

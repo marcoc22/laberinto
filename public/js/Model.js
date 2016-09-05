@@ -48,6 +48,5 @@ let OppositeSeekDirections = { N:'S' ,S:'N' , E:'W' ,W:'E' };
 let SeekLookup = {'N': SeekDirections[0],'S': SeekDirections[1],'E': SeekDirections[2],'W': SeekDirections[3]};
 
 let point = new Point();
-let timer = new Timer(0,0,0);
-let myWorker = new Worker("js/Worker.js");
+let myWorker = null;
 let maze;

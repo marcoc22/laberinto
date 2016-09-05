@@ -13,6 +13,7 @@ init();
 update();*/
 window.addEventListener('onMazeCompleted', e => {
     fromEvent(e)
+    .then(stopWorker())
     .then(_ => $("#loadingSolution").delay(10).hide(600))
     .then(_ => $("#playAgain").delay(10).show(600))
     .then(_ => $("#divAgainBtn").show())
@@ -23,20 +24,26 @@ window.addEventListener('onMazeCompleted', e => {
 
 window.addEventListener('onMazeManualCompleted', e => {
     fromEvent(e)
+    .then(stopWorker())
     .then(_ => $("#loadingSolution").delay(10).hide(600))
     .then(_ => $("#playAgain").delay(10).show(600))
     .then(_ => $("#divAgainBtn").show())
     .catch(logError)
-    }
-);
+});
 
 solveRunBtn.addEventListener('click', e => {
     fromEvent(e)
+    .then(_ => clockInput.innerHTML = "00:00:00")
     .then(_ => $("#step3").delay(10).show(600))
     .then(_ => maze.shouldSolve = true)
-    .then(startClock())
-    .then(startWork())
-    //.then(_ => myWorker.onmessage)
+    .then(_ => myWorker = null)
+    .then(_ => myWorker = new Worker("js/Worker.js"))
+    .then(startWork)
+    .then(_ => myWorker.onmessage =  e =>  fromEvent(e) // Worker Message-Workflow
+                                           .then(updateView) 
+                                                 
+         )
+    
     .then(enableButtons(step2Buttons,true))
     .then(enableButtons(step3Buttons,true))
     .then(_ => $("#loadingSolution").delay(10).show(600))
@@ -49,9 +56,18 @@ solveRunBtn.addEventListener('click', e => {
 
 solveManBtn.addEventListener('click', e => {
     fromEvent(e)
+    .then(_ => clockInput.innerHTML = "00:00:00")
     .then(_ => point.x=8,point.y=4,point.dx=0,point.dy=0)
     .then(_ => $("#step3").delay(10).show(600))
     .then(_ => maze.shouldManual=true)
+    .then(_ => myWorker = null)
+    .then(_ => myWorker = new Worker("js/Worker.js"))
+    .then(startWork)
+    .then(_ => myWorker.onmessage =  e =>  fromEvent(e) // Worker Message-Workflow
+                                           .then(updateView) 
+                                                 
+         )
+    
     .then(enableButtons(step2Buttons,true))
     .then(enableButtons(step3Buttons,true))
     .then(_ => $("#playing").delay(10).show(600))
@@ -121,6 +137,10 @@ againBtn.addEventListener('click',  e => {
     .then(_ => $("#step3").delay(10).hide(600))
     .then(_ => $("#step0").delay(10).show(600))
     .then(_ => nickInput.value="")
+    .then(_ => $("#loadingSolution").delay(10).hide(600))
+    .then(_ => $("#playAgain").delay(10).hide(600))
+    .then(_ => clockInput.value = "00:00:00")
+    .then(_ => $("#divAgainBtn").hide())
     .catch(logError)
     }
 );
