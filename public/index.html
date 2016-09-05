@@ -94,16 +94,16 @@
                                 <div class="login-ear"></div>
                                 <h2 class="mbl">1. Crear nuevo laberinto</h2>
                                 <div class="mbm">
-                                    <div class="text-rounded light">
-                                        Filas: <input placeholder="filas" tabindex="13" id="rows" type="text" value="10" class="input" 
-                                                      style="margin-left:35px;">
+                                    <div>
+                                        Filas: <input type="number" id="rows"  value="6" min="1" max="13" step="1" style="margin-left:30px; color:#000000; width:60px">
                                     </div>
                                 </div>
-                                <div class="pts" style="margin-bottom: 20px;">
-                                    <div class="text-rounded light">
-                                        Columnas: <input placeholder="columnas" tabindex="14" id="cols" type="text" value="10" class="input"
-                                                         style="margin-left:5px;">
-                                    </div>
+                                <div style='margin-bottom:25px'>
+                                   <div>
+                                  Columnas:<input type="number"  id="cols" value="6" min="1" max="13" step="1" 
+                                  style="margin-left:5px;color:#000000 ; width:60px">
+                                  
+								</div>
                                 </div>
                                 <div class="login-buttons clearfix">
 
@@ -149,7 +149,7 @@
 
 
                                 </div>
-                                <h2 id="time"> 00:00:00</h2>
+                                <h2 id="time">00:00:00</h2>
                                 <div class="mbm" id="divAgainBtn" style="display: none;">
                                     <div class="text-rounded light">
                                         <input class="button positive" type="button" id="againBtn"  value="Volver a jugar">
@@ -221,7 +221,7 @@
             </div>
 
             <script src="js/Tool.js"></script>
-           
+            <script src="js/Timer.js"></script>
 
             <script src="js/Wall.js"></script>
             <script src="js/Maze.js"></script>
@@ -231,9 +231,7 @@
             <script src="js/Solve.js"></script>
 
             <script src="js/Controller.js"></script>
-            <script src="js/Timer.js"></script>
             <script src="js/Worker.js"></script>
-
             <script src="js/ServidorLocal.js"></script>
             <script src="js/ServerProxy.js"></script>
 

@@ -14,6 +14,7 @@ let saveBtn = get('saveBtn');
 let nickBtn = get('addNick');
 let againBtn = get('againBtn');
 let tool = new Tool();
+let imgFace = document.getElementById("face");
 
 
 let     ctx,tileSize,
@@ -47,6 +48,5 @@ let OppositeSeekDirections = { N:'S' ,S:'N' , E:'W' ,W:'E' };
 
 let SeekLookup = {'N': SeekDirections[0],'S': SeekDirections[1],'E': SeekDirections[2],'W': SeekDirections[3]};
 
-let point = new Point();
 let myWorker = null;
 let maze;

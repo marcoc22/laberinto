@@ -41,6 +41,8 @@
    console.log('Request failed', error);  
   });
 }
+
+
 function recuperarServer(){ 
     
   

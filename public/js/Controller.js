@@ -1,5 +1,6 @@
 'use strict';
 
+
 function updateView (e) { clockInput.innerHTML = e.data.msg ;  }
 function postMsg(msg) {
           if (myWorker)
@@ -34,40 +35,40 @@ function enableButtons(args,value){
 function processKey(e){
 
   if (e.keyCode == 38) {//tecla arriba
-    point.dy = -2.5;
+    maze.face.dy = -2.5;
   }
 
   if (e.keyCode == 40) {//tecla abajo
-    point.dy = 2.5;
+     maze.face.dy = 2.5;
 
   }
 
   if (e.keyCode == 37) {//tecla izquierda
-    point.dx = -2.5;
+     maze.face.dx = -2.5;
   }
 
   if (e.keyCode == 39) {//tecla derecha
-    point.dx = 2.5;
+     maze.face.dx = 2.5;
   }
 
 }
 function processKeyUp(e){
 
   if (e.keyCode == 38) {//tecla arriba
-    point.dy = 0;
+     maze.face.dy = 0;
   }
 
   if (e.keyCode == 40) {//tecla abajo
-    point.dy = 0;
+     maze.face.dy = 0;
 
   }
 
   if (e.keyCode == 37) {//tecla izquierda
-    point.dx = 0;
+     maze.face.dx = 0;
   }
 
   if (e.keyCode == 39) {//tecla derecha
-    point.dx = 0;
+     maze.face.dx = 0;
   }
 
 }
@@ -88,7 +89,7 @@ function init() {
     canvas.width = width * size;
     canvas.height = height * size;
 
-    maze = new Maze(width,height,[],{},true,false,false,null,0,0,null,false,false,[],false);
+    maze = new Maze(width,height,[],{},true,false,false,null,0,0,null,false,false,[],false,false,new Point(0,0,0,0));
     maze.mice.push(new Mouse());
     populateGrid();
 }
@@ -127,12 +128,23 @@ function reinitialize(){
     mazeHeight = height;
     totalTiles = width * height;
     ctx = canvas.getContext('2d');
+
     if (!ctx) {
         throw (new Error('Error'));
     }
     canvas.width = width * size;
     canvas.height = height * size;
     update();
+    
+    if(maze.shouldManual){
+     $("#playing").delay(10).show(600);
+     $("#step0").delay(10).hide(600);
+     $("#loadingSolution").show();
+     $("#step3").show();    
+      window.onkeydown=processKey;
+      window.onkeyUp=processKeyUp;  
+    }
+   
 }
 
 function resetBacktrack(){ 

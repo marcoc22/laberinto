@@ -29,7 +29,7 @@ app.get('/', (req, res)=>{
 						  console.log("*** LA PAGINA DEL LABERINTO FUE  RECIBIDA ***");
 						 });
 
-app.post('/guardarJuego', (req, res)=>{
+  app.post('/guardarJuego', (req, res)=>{
   	let gam = req.body.nick;
 	let que = req.body.laberinto;
 	console.log('JUEGO GUARDADO... JUGADOR:' + gam + ' Lab: ' + que)
