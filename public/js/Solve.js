@@ -152,7 +152,7 @@ function getMouseHistory(mouse,key){  //Ya esta listo
 
 
 function checkForCollision() {  //FALTA MODULARLO 
-  let imgData = ctx.getImageData(point.x-1, point.y-1, 15+2, 15+2);
+  let imgData = ctx.getImageData(maze.face.x-1, maze.face.y-1, 15+2, 15+2);
   let pixels = imgData.data;
 
 
@@ -258,16 +258,16 @@ let showMazeAuxBranch2 = (cell,Walls,ctx) => {
 
 
 function mazeManual(ctx){//No tocar
-    point.x += point.dx;
-    point.y += point.dy;
+    maze.face.x += maze.face.dx;
+    maze.face.y += maze.face.dy;
     if(checkForCollision()){
-    point.x -= point.dx;
-    point.y -= point.dy;
-    point.dx = 0;
-    point.dy = 0;
+    maze.face.x -= maze.face.dx;
+    maze.face.y -= maze.face.dy;
+    maze.face.dx = 0;
+    maze.face.dy = 0;
     }
     imgFace.crossOrigin = "Anonymous";
-    ctx.drawImage(imgFace, point.x,point.y);
+    ctx.drawImage(imgFace, maze.face.x,maze.face.y);
     }
 
 

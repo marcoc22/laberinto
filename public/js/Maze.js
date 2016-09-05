@@ -1,7 +1,7 @@
 class Maze{
 	constructor(width,height,mice,depths,showMaze,showDepth,
 		mazeCreated,activeCell,longestDistance,pathDistance,
-		exitCell,shouldSolve,shouldManual,backTrack,grid,solving){
+		exitCell,shouldSolve,shouldManual,backTrack,grid,solving,face){
 
 		this.size=30;
 		this.width=width;
@@ -20,6 +20,7 @@ class Maze{
     	this.backTrack = backTrack;
     	this.grid = grid;
     	this.solving = solving;
+        this.face = face;
 	}
 }
 

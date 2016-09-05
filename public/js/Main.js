@@ -49,7 +49,7 @@ solveRunBtn.addEventListener('click', e => {
 
 solveManBtn.addEventListener('click', e => {
     fromEvent(e)
-    .then(_ => point.x=8,point.y=4,point.dx=0,point.dy=0)
+    .then(_ => maze.face.x=8,maze.face.y=4,maze.face.dx=0,maze.face.dy=0)
     .then(_ => $("#step3").delay(10).show(600))
     .then(_ => maze.shouldManual=true)
     .then(enableButtons(step2Buttons,true))
