@@ -1,4 +1,13 @@
+/*
+Proyecto 1: Laberinto
 
+Integrantes: 
+Nombre: Marco Tulio Canales Mesén ID:402250724
+Nombre: Alfonso Gerardo González Orozco ID:402210937
+Nombre: David Antonio Chacón Abarca ID:116240217
+Nombre: José Ignacio Ávalos Bonilla ID:207300601
+
+*/
    function dirServer()
   {
   return 'http://127.0.0.1:1337';

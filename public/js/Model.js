@@ -39,6 +39,16 @@ const logError = e => console.log(e);
 
 //**********Clases
 
+/*
+Proyecto 1: Laberinto
+
+Integrantes: 
+Nombre: Marco Tulio Canales Mesén ID:402250724
+Nombre: Alfonso Gerardo González Orozco ID:402210937
+Nombre: David Antonio Chacón Abarca ID:116240217
+Nombre: José Ignacio Ávalos Bonilla ID:207300601
+
+*/
 let Walls = new Wall();
 let OppositeWalls = { N: Walls.S,S: Walls.N,E: Walls.W,W: Walls.E};
 
@@ -48,7 +58,5 @@ let OppositeSeekDirections = { N:'S' ,S:'N' , E:'W' ,W:'E' };
 
 let SeekLookup = {'N': SeekDirections[0],'S': SeekDirections[1],'E': SeekDirections[2],'W': SeekDirections[3]};
 
-
-let timer = new Timer(0,0,0);
-let myWorker = new Worker("js/Worker.js");
+let myWorker = null;
 let maze;

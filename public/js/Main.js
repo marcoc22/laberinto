@@ -1,3 +1,13 @@
+/*
+Proyecto 1: Laberinto
+
+Integrantes: 
+Nombre: Marco Tulio Canales Mesén ID:402250724
+Nombre: Alfonso Gerardo González Orozco ID:402210937
+Nombre: David Antonio Chacón Abarca ID:116240217
+Nombre: José Ignacio Ávalos Bonilla ID:207300601
+
+*/
 window.onload = e => {
     fromEvent(e)
     .then(initView())
@@ -13,6 +23,7 @@ init();
 update();*/
 window.addEventListener('onMazeCompleted', e => {
     fromEvent(e)
+    .then(stopWorker())
     .then(_ => $("#loadingSolution").delay(10).hide(600))
     .then(_ => $("#playAgain").delay(10).show(600))
     .then(_ => $("#divAgainBtn").show())
@@ -23,6 +34,7 @@ window.addEventListener('onMazeCompleted', e => {
 
 window.addEventListener('onMazeManualCompleted', e => {
     fromEvent(e)
+    .then(stopWorker())
     .then(_ => $("#loadingSolution").delay(10).hide(600))
     .then(_ => $("#playAgain").delay(10).show(600))
     .then(_ => $("#divAgainBtn").show())
@@ -32,9 +44,15 @@ window.addEventListener('onMazeManualCompleted', e => {
 
 solveRunBtn.addEventListener('click', e => {
     fromEvent(e)
+    .then(_ => clockInput.innerHTML = "00:00:00")
     .then(_ => $("#step3").delay(10).show(600))
     .then(_ => maze.shouldSolve = true)
-    .then(startClock())
+    .then(_ => myWorker = null)
+    .then(_ => myWorker = new Worker("js/Worker.js"))
+    .then(_ => myWorker.onmessage =  e =>  fromEvent(e) // Worker Message-Workflow
+                                           .then(updateView) 
+                                                 
+         )
     .then(startWork())
     //.then(_ => myWorker.onmessage)
     .then(enableButtons(step2Buttons,true))
@@ -49,15 +67,24 @@ solveRunBtn.addEventListener('click', e => {
 
 solveManBtn.addEventListener('click', e => {
     fromEvent(e)
-    .then(_ => maze.face.x=8,maze.face.y=4,maze.face.dx=0,maze.face.dy=0)
-    .then(_ => $("#step3").delay(10).show(600))
-    .then(_ => maze.shouldManual=true)
-    .then(enableButtons(step2Buttons,true))
-    .then(enableButtons(step3Buttons,true))
+    .then(_ => clockInput.innerHTML = "00:00:00")
     .then(_ => $("#playing").delay(10).show(600))
     .then(_ => $("#step2").delay(10).hide(600))
     .then(_ => $("#loadingSolution").delay(10).show(600))
     .then(_ => $("#playAgain").delay(10).hide(600))
+    .then(enableButtons(step2Buttons,true))
+    .then(enableButtons(step3Buttons,true))
+    .then(_ => maze.face.x=8,maze.face.y=4,maze.face.dx=0,maze.face.dy=0)
+    .then(_ => $("#step3").delay(10).show(600))
+    .then(_ => maze.shouldManual=true)
+    .then(_ => myWorker = null)
+    .then(_ => myWorker = new Worker("js/Worker.js"))
+    
+    .then(_ => myWorker.onmessage =  e =>  fromEvent(e) // Worker Message-Workflow
+                                           .then(updateView) 
+                                                 
+         )
+    .then(startWork())
     .then(_ => canvas.setAttribute("autofocus","true"))
     .then(_ => window.onkeydown=processKey)
     .then(_ =>  window.onkeyup=processKeyUp)
@@ -121,6 +148,10 @@ againBtn.addEventListener('click',  e => {
     .then(_ => $("#step3").delay(10).hide(600))
     .then(_ => $("#step0").delay(10).show(600))
     .then(_ => nickInput.value="")
+    .then(_ => $("#loadingSolution").delay(10).hide(600))
+    .then(_ => $("#playAgain").delay(10).hide(600))
+    .then(_ => clockInput.value = "00:00:00")
+    .then(_ => $("#divAgainBtn").hide())
     .catch(logError)
     }
 );
